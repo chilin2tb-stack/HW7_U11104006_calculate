@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地球物理作業解答</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #222;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 5px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 30px;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-top: 25px;
+            border-bottom: 1px solid #eee;
+        }
+        p, ul {
+            margin-bottom: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        .data-block {
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .answer {
+            font-weight: bold;
+            color: #005a9c;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #fdfdfd;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🌍 重力異常計算作業</h1>
+
+    <h2>題目中文解釋</h2>
+
+    <p>這道題目提供了一個重力測站的觀測數據，要求你進行一系列的重力改正，以計算出「重力異常」。重力異常是地表下地質密度不均的指標。</p>
+
+    <div class="data-block">
+        <strong>題目給定的資料：</strong>
+        <ul>
+            <li><strong>緯度 (Latitude):</strong> 48.1195&deg; N</li>
+            <li><strong>經度 (Longitude):</strong> 12.1878&deg; E</li>
+            <li><strong>高程 (Elevation):</strong> 487.9 m</li>
+            <li><strong>觀測重力 (Observed gravity):</strong> 980,717.39 mGal (毫伽)</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h3>a) 部分：陸地測站</h3>
+    <p>此部分是標準的陸地重力計算。</p>
+    <ul>
+        <li><strong>i) 理論重力 (theoretical gravity):</strong>
+            <p><strong>目的：</strong> 計算在<strong>海平面</strong>上、該緯度（48.1195&deg; N）的標準重力值。這是一個基於地球橢球模型的理論值。</p>
+        </li>
+        <li><strong>ii) 自由空氣改正 (free air correction):</strong>
+            <p><strong>目的：</strong> 計算測站因為<strong>高於海平面</strong>（487.9 m）所導致的重力減少量。位置越高，離地心越遠，重力越弱。此改正項會將重力值「拉」回到海平面。</p>
+        </li>
+        <li><strong>iii) 布蓋改正 (Bouguer correction):</strong>
+            <p><strong>目的：</strong> 計算在測站與海平面之間，那塊厚度為 487.9 m 的<strong>岩層</strong>（假設密度為 2.67 g/cm&sup3;）所產生的額外引力。</p>
+        </li>
+        <li><strong>iv) 自由空氣重力異常 (free air gravity anomaly):</strong>
+            <p><strong>目的：</strong> 比較「觀測重力」與「在測站高程的理論重力」。<br>
+            <strong>公式：</strong> <code>自由空氣異常 = 觀測重力 - 理論重力 + 自由空氣改正</code></p>
+        </li>
+        <li><strong>v) 布蓋重力異常 (Bouguer gravity anomaly):</strong>
+            <p><strong>目的：</strong> 這是自由空氣異常<strong>再減去</strong>岩層引力（布蓋改正）後的結果。它反映的是<strong>扣除了地形</strong>影響後，地殼內部的密度變化。<br>
+            <strong>公式：</strong> <code>布蓋異常 = 自由空氣異常 - 布蓋改正</code></p>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h3>b) 部分：海洋測站 (假設情境)</h3>
+    <p>此部分情境改變：假設測站位於<strong>海平面上</strong>（高程 <i>h</i>=0），但下方有 487.9 m 深的<strong>海水</strong>。</p>
+    <ul>
+        <li><strong>目的：</strong> 重新計算自由空氣異常和布蓋異常。</li>
+        <li><strong>關鍵變化：</strong>
+            <ol>
+                <li><strong>自由空氣改正 (FAC)：</strong> 因為測站就在海平面（<i>h</i>=0），所以自由空氣改正為 0。</li>
+                <li><strong>布蓋改正 (BC)：</strong> 情況變了。我們不再是移除陸地岩層，而是要處理「海水」和「標準岩層」的密度差異。標準的「海洋布蓋改正」是計算 <strong>(標準岩層密度 - 海水密度)</strong> 所產生的引力。</li>
+            </ol>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h2>🧮 計算過程與答案</h2>
+    <p>我們使用標準常數和公式（岩石密度 &rho;<sub>rock</sub> = 2.67 g/cm&sup3;，海水密度 &rho;<sub>water</sub> = 1.03 g/cm&sup3;）。</p>
+
+    <h3>a) 陸地測站 (h = 487.9 m)</h3>
+    <ul>
+        <li><strong>i) 理論重力 (Gt):</strong>
+            <p><i>Gt</i> = 978031.85 &times; (1 + 0.00578895 &times; sin(48.1195&deg;)&sup2; + 0.000023462 &times; sin(48.1195&deg;)<sup>4</sup>)<br>
+            <span class="answer">答案： <strong>981,165.70 mGal</strong></span></p>
+        </li>
+        <li><strong>ii) 自由空氣改正 (FAC):</strong>
+            <p>FAC = 0.3086 &times; <i>h</i> = 0.3086 &times; 487.9<br>
+            <span class="answer">答案： <strong>150.55 mGal</strong></span></p>
+        </li>
+        <li><strong>iii) 布蓋改正 (BC):</strong>
+            <p>BC = 0.04193 &times; &rho;<sub>rock</sub> &times; <i>h</i> = 0.04193 &times; 2.67 &times; 487.9<br>
+            <span class="answer">答案： <strong>54.61 mGal</strong></span></p>
+        </li>
+        <li><strong>iv) 自由空氣重力異常 (FAA):</strong>
+            <p>FAA = Go - Gt + FAC = 980,717.39 - 981,165.70 + 150.55<br>
+            <span class="answer">答案： <strong>-297.76 mGal</strong></span></p>
+        </li>
+        <li><strong>v) 布蓋重力異常 (BGA):</strong>
+            <p>BGA = FAA - BC = -297.76 - 54.61<br>
+            <span class="answer">答案： <strong>-352.37 mGal</strong></span></p>
+        </li>
+    </ul>
+
+    <h3>b) 海洋測站 (h = 0 m, 水深 d = 487.9 m)</h3>
+    <ul>
+        <li><strong>i) 自由空氣重力異常 (FAA_ocean):</strong>
+            <p>測站高程 <i>h</i> = 0，所以自由空氣改正 (FAC_ocean) = 0。<br>
+            FAA<sub>ocean</sub> = Go - Gt + FAC<sub>ocean</sub> = 980,717.39 - 981,165.70 + 0<br>
+            <span class="answer">答案： <strong>-448.31 mGal</strong></span></p>
+        </li>
+        <li><strong>ii) 布蓋重力異常 (BGA_ocean):</strong>
+            <p>海洋的布蓋改正是基於密度差。<br>
+            BC<sub>ocean</sub> = 0.04193 &times; (&rho;<sub>rock</sub> - &rho;<sub>water</sub>) &times; <i>d</i><br>
+            BC<sub>ocean</sub> = 0.04193 &times; (2.67 - 1.03) &times; 487.9 = 33.55 mGal<br>
+            海洋的布蓋異常 (BGA) 是<strong>加上</strong>這個改正項。<br>
+            BGA<sub>ocean</sub> = FAA<sub>ocean</sub> + BC<sub>ocean</sub> = -448.31 + 33.55<br>
+            <span class="answer">答案： <strong>-414.76 mGal</strong></span></p>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h2>📊 答案總結</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>計算項目</th>
+                <th>(a) 陸地測站 (mGal)</th>
+                <th>(b) 海洋測站 (mGal)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>(i) 理論重力</td>
+                <td>981,165.70</td>
+                <td>(同左)</td>
+            </tr>
+            <tr>
+                <td>(ii) 自由空氣改正</td>
+                <td>150.55</td>
+                <td>0.00</td>
+            </tr>
+            <tr>
+                <td>(iii) 布蓋改正</td>
+                <td>54.61</td>
+                <td>33.55 (水層改正)</td>
+            </tr>
+            <tr>
+                <td>(iv) 自由空氣異常</td>
+                <td class="answer">-297.76</td>
+                <td class="answer">-448.31</td>
+            </tr>
+            <tr>
+                <td>(v) 布蓋異常</td>
+                <td class="answer">-352.37</td>
+                <td class="answer">-414.76</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
